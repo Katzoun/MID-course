@@ -1,0 +1,11 @@
+clc, clear, close all
+
+t = 0:0.01:10;
+u = ones(size(t));
+
+y = cviceni02_1(u,t);
+
+figure(1)
+plot(t,y)
+
+K = mean(y(end-2:end))
