@@ -17,21 +17,22 @@ plot(t,y);
 hold on
 
 K = mean(y(end-2:end));
-d = (y(2)-y(1))/Ts;
+I = find(y > 0,1);
+
+d = (y(I)-y(I-1))/Ts;
 T = K/d;
+Td = (I-2)*Ts
 
 disp('Identifikovany prenos')
 p = tf('p'); 
-F = K / (T*p + 1);
+F = K / (T*p + 1) * exp(-Td*p);
 
 % ted zkusime odezvu naseho identifikovaneho sys
-h = K*(1-exp(-t/T));
-plot(t,h)
 
 % jeste jina varianta
 yv =lsim(F,u,t);
 plot(t,yv)
 
-legend('vystup systemu', 'vystup ident sys', 'vystup z lsim')
+legend('vystup systemu', 'vystup z lsim')
 xlabel('t')
 ylabel('y')
