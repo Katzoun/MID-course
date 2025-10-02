@@ -1,0 +1,38 @@
+clc, clear, close all
+ts= 0.01;
+t  = 0:ts:25; 
+u = ones(size(t))*1000; 
+y = cviceni02_6(u,t)/1000;
+
+plot(t,y)
+hold on
+grid on
+Ks = mean(y(end-4:end)) - mean(y(1:5));
+idx1 = find(y>Ks, 1);
+y_temp = y(idx1:end);
+
+idx2 = find(y_temp<Ks, 1) + idx1; 
+y_temp = y(idx2:end);
+idx3 = find(y_temp>Ks, 1) + idx2;
+
+TA = t(idx3) - t(idx1);
+
+[A1, IA1] = max(y);
+[A2, IA2] = max(y(idx2:end));
+A1 = A1 - Ks;
+A2 = A2 - Ks; 
+
+Td = t(find(y > 1e-2,1)-2);
+
+theta = log(A1/A2);
+ksi = theta/ sqrt(4*pi^2+theta^2);
+T = (TA*sqrt(1-ksi^2))/(2*pi);
+
+p = tf('p'); 
+F = (Ks / (T^2*p^2 + 2*ksi*p*T + 1))*exp(-Td*p)
+
+yv =lsim(F,u/1000,t);
+plot(t,yv)
+
+
+

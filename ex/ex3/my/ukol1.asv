@@ -1,0 +1,29 @@
+clc, clear, close all
+
+Ts = 0.1; 
+t = 0:Ts:20000;
+N = length(t)
+u = idinput(N, 'prbs', [0 1],[-1,1])
+
+[y, gt,tt] = cviceni03_1(u,t);
+
+M = 300;
+
+figure(1)
+plot(tt(1:M), gt(1:M))
+
+Ruu = zeros(M,1);
+Ruy 
+
+for k = 1:
+    for i = 1:
+    
+
+    end
+end
+
+
+g = Ruy/Ruu(1)/Ts
+plot(t(1:M),g)
+
+% plot(t,u,t,y)
